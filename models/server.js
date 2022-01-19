@@ -13,8 +13,9 @@ class Server {
 
         //rutas
         this.routes  = {
-            user : '/api/user',
-            auth : '/api/auth'
+            user     : '/api/user',
+            auth     : '/api/auth',
+            category : '/api/category'
         }
 
         this.conectarDB();
@@ -44,6 +45,7 @@ class Server {
     route() {
         this.app.use(this.routes.user, require('../routes/user.routes'));
         this.app.use(this.routes.auth, require('../routes/auth.routes'));
+        this.app.use(this.routes.category, require('../routes/category.routes'));
     }
 
     listen(){

@@ -18,7 +18,6 @@ const login = async( req , res  = response ) => {
     }
 
     //user is active
-    console.log( userTemp.status );
     if ( userTemp.status != 'ACTIVE' ){
         return res.status( 400 ).json({
             msg : `The user with the email ${ email } isn't active, please contact to your admin`    
@@ -33,7 +32,7 @@ const login = async( req , res  = response ) => {
     }
 
     //token
-    const token = await generateToken( userTemp.uid );
+    const token = await generateToken( userTemp._id );
 
     res.status( 200 ).json({
         userTemp,
