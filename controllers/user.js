@@ -10,7 +10,7 @@ const signUp = async ( req = request , res = response ) => {
     const userDB = await User.findOne( { email } );
     if ( userDB ){
         return res.status( 400 ).json({
-            msg: `El usuario con el correo ${ categoriaDB.email } ya existe`
+            msg: `There's already an user with the email ${ userDB.email }`
         });
     }
 
