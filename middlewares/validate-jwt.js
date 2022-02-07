@@ -15,26 +15,37 @@ const validateJwt = async( req = request , res = response, next ) => {
 
     try {
 
-        const { uid } = jwt.verify( token, process.env.SECRETKEY );
+        const { uid } = await jwt.verify( token, process.env.SECRETKEY, (err, decoded ) => {
+            if( err ){
+                if( err.message = 'jwt expired' ){
+                    return res.status( 401 ).json({
+                        msg : `Token expired`
+                    })
+                }
+            }
+            return decoded;
+        });
 
-        const userTmp = await User.findById( uid );
+        if( uid ){
+            const userTmp = await User.findById( uid );
+            req.user = userTmp;
+        
+            if ( !userTmp ){
+                return res.status( 401 ).json({
+                    msg : `Invalid token, user doesn't exist`
+                })
+            }
     
-        if ( !userTmp ){
-            return res.status( 401 ).json({
-                msg : `Invalid token, user doesn't exist`
-            })
+            if ( userTmp.status != 'ACTIVE' ){
+                return res.status( 401 ).json({
+                    msg : `The user isn't active, contact to your administrator`
+                })
+            }
+    
+            next();
         }
-
-        if ( userTmp.status != 'ACTIVE' ){
-            return res.status( 401 ).json({
-                msg : `The user isn't active, contact to your administrator`
-            })
-        }
-
-        next();
         
     } catch (error) {
-        console.log( error );
         return res.status( 500 ).json({
             msg : 'An error has ocurred, contact to your administrator'
         });

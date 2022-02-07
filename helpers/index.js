@@ -1,5 +1,5 @@
 const dbValidators = require('../helpers/db-validators');
-const generateJwt = require('../helpers/generate-jwt');
+const generateJwt = require('./jwt');
 const passwordEncryption = require('../helpers/password-encryption');
 
 

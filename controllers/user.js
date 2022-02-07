@@ -1,6 +1,7 @@
 const { request, response } = require("express");
 const User                  = require('../models/user');
 const { encryptPwd }        = require('../helpers/password-encryption');
+const { getUidWithToken }   = require('../helpers/jwt');
 
 
 const signUp = async ( req = request , res = response ) => {

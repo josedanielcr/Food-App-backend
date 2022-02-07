@@ -13,9 +13,10 @@ class Server {
 
         //rutas
         this.routes  = {
-            user     : '/api/user',
-            auth     : '/api/auth',
-            category : '/api/category'
+            user      : '/api/user',
+            auth      : '/api/auth',
+            category  : '/api/category',
+            menuOption : '/api/menuOption',
         }
 
         this.conectarDB();
@@ -46,6 +47,7 @@ class Server {
         this.app.use(this.routes.user, require('../routes/user.routes'));
         this.app.use(this.routes.auth, require('../routes/auth.routes'));
         this.app.use(this.routes.category, require('../routes/category.routes'));
+        this.app.use(this.routes.menuOption, require('../routes/menuOption.routes'));
     }
 
     listen(){

@@ -1,7 +1,7 @@
-const { Router }      = require('express');
-const { check }       = require('express-validator');
-const { checkFields } = require('../middlewares/index');
-const { signUp }      = require('../controllers/user');
+const { Router }     = require('express');
+const { check }      = require('express-validator');
+const { checkFields, validateJwt } = require('../middlewares/index');
+const { signUp, getUserByToken }     = require('../controllers/user');
 
 const router = Router();
 
@@ -11,6 +11,6 @@ router.post('/signUp',[
     check( 'email'   , 'You must provide a email').not().isEmpty().isEmail(),
     check( 'password', 'You must provide a password').not().isEmpty(),
     checkFields
-], signUp)
+], signUp);
 
 module.exports = router;

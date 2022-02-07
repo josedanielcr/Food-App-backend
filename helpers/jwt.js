@@ -21,7 +21,20 @@ const generateToken = async( uid ) => {
 
 }
 
+const getUidWithToken = async( token ) => {
+
+    try {
+
+        const { uid } = jwt.verify( token, process.env.SECRETKEY ); 
+        return uid;
+    } catch (error) {
+        throw new Error("Invalid token");
+    }
+}
+
+
 
 module.exports = {
-    generateToken
+    generateToken,
+    getUidWithToken
 }
