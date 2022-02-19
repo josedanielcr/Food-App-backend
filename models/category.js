@@ -15,12 +15,12 @@ const CategorySchema = new Schema({
     image : {
         type     : String,
         default  : '',
-        required : false
+        required : true
     }
 });
 
 CategorySchema.methods.toJSON = function(){
-    const { __v ,status,...category } = this.toObject();
+    const { __v,...category } = this.toObject();
     return category;
 }
 

@@ -1,8 +1,14 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { checkFields, validateJwt } = require('../middlewares/');
+const { checkFields, validateJwt, isAdminRole } = require('../middlewares/');
 const { categoryExist } = require('../helpers/db-validators');
-const { createCategory, getCategories, getCategory } = require('../controllers/category');
+const { 
+    createCategory, 
+    getCategories,
+    getCategory, 
+    updateCategory,
+    deleteCategory
+    } = require('../controllers/category');
 
 const router = Router();
 
@@ -16,7 +22,7 @@ router.post( '/' ,[
 //Retrieve all categories - open( just token )
 router.get('/', [
     validateJwt
-], getCategories )
+], getCategories );
 
 //Retrive category - open ( just token )
 router.get('/:id' ,[
@@ -25,6 +31,25 @@ router.get('/:id' ,[
     check( 'id', 'You must privide a valid id').isMongoId(),
     check( 'id' ).custom( categoryExist ),
     checkFields
-], getCategory )
+], getCategory );
+
+//Update category - private just admin
+router.put('/:id' , [
+    validateJwt,
+    isAdminRole,
+    check( 'id', 'You must provide an id').not().isEmpty(),
+    check( 'id', 'You must privide a valid id').isMongoId(),
+    check( 'id' ).custom( categoryExist ),
+    checkFields
+], updateCategory );
+
+//delete category - private just admin
+router.delete('/:id', [
+    validateJwt,
+    isAdminRole,
+    check( 'id', 'You must provide an id').not().isEmpty(),
+    check( 'id', 'You must privide a valid id').isMongoId(),
+    checkFields
+], deleteCategory);
 
 module.exports = router;

@@ -1,8 +1,7 @@
 const { request, response } = require("express")
 
 const isAdminRole = ( req = request , res = response , next ) => {
-
-    console.log( req );
+    
     if ( !req.user ){
         return res.status(500).json({
             msg: `it's necessary to validate the token before the role`
